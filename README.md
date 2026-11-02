@@ -1,26 +1,35 @@
 # RainRemoverMod
 
-A BepInEx mod for Gorilla Tag that removes rain from the game. Press **R** on your keyboard to toggle it back on or off whenever you want.
+Removes rain in Gorilla Tag. Simple as that.
+
+## Features
+
+- Rain is disabled automatically when you load in
+- Press **R** on your keyboard to bring it back (and R again to turn it off)
+- Top-left of your monitor shows **Rain: On** or **Rain: Off** in green/red
+- Auto-updates — just install it once and it keeps itself up to date
 
 ## Requirements
 
 - [BepInEx 5.4.x](https://github.com/BepInEx/BepInEx/releases)
-- Gorilla Tag (Steam)
+- Gorilla Tag (Steam / SteamVR)
 
 ## Installation
 
-1. Make sure BepInEx is installed in your Gorilla Tag folder
-2. Drop `RainRemoverMod.dll` into `Gorilla Tag/BepInEx/plugins/`
-3. Launch the game
+1. Install BepInEx if you haven't already
+2. Drop `RainRemoverMod.dll` into `Gorilla Tag/BepInEx/plugins/RainRemoverMod/`
+3. Launch the game — done
 
-## Usage
+Future updates download and apply themselves when you restart the game, so you never have to touch it again.
 
-Rain is disabled by default when the mod loads. While the game is running, press **R** on your keyboard to toggle rain on or off.
+## Building
 
-## Building from source
-
-Requires .NET Framework 4.7.2 and the Gorilla Tag + BepInEx DLLs in the paths referenced by the .csproj.
+Requires .NET Framework 4.7.2 and the game + BepInEx DLLs at the paths in the `.csproj`.
 
 ```
 dotnet build -c Release
 ```
+
+## Credits
+
+Made by AxolotlGT
