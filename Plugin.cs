@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Net;
 using System.Reflection;
+using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using BepInEx;
@@ -13,9 +14,13 @@ using UnityEngine.SceneManagement;
 
 namespace RainRemoverMod
 {
-    [BepInPlugin("com.gorillatag.rainremover", "RainRemoverMod", "1.0.4")]
+    [BepInPlugin("com.gorillatag.rainremover", "RainRemoverMod", "1.0.5")]
     public class Plugin : BaseUnityPlugin
     {
+        [DllImport("user32.dll")]
+        private static extern short GetAsyncKeyState(int vKey);
+        private const int VK_R = 0x52;
+
         private const string ReleaseApi = "https://api.github.com/repos/kaidevelopment/RainRemoverMod/releases/latest";
 
         private static readonly ManualLogSource Log =
@@ -26,6 +31,7 @@ namespace RainRemoverMod
 
         private readonly List<GameObject> _rainObjects = new List<GameObject>();
         private bool _rainOn;
+        private bool _rWasDown;
         private volatile string _pendingDll;
 
         private void Awake()
@@ -49,8 +55,10 @@ namespace RainRemoverMod
 
         private void Update()
         {
-            if (Input.GetKeyDown(KeyCode.R))
+            bool rDown = (GetAsyncKeyState(VK_R) & 0x8000) != 0;
+            if (rDown && !_rWasDown)
                 SetRain(!_rainOn);
+            _rWasDown = rDown;
         }
 
         private void OnGUI()
