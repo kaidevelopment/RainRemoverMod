@@ -13,7 +13,7 @@ using UnityEngine.SceneManagement;
 
 namespace RainRemoverMod
 {
-    [BepInPlugin("com.gorillatag.rainremover", "RainRemoverMod", "1.0.3")]
+    [BepInPlugin("com.gorillatag.rainremover", "RainRemoverMod", "1.0.4")]
     public class Plugin : BaseUnityPlugin
     {
         private const string ReleaseApi = "https://api.github.com/repos/kaidevelopment/RainRemoverMod/releases/latest";
@@ -61,16 +61,13 @@ namespace RainRemoverMod
             rainStyle.normal.textColor = _rainOn ? Color.green : Color.red;
 
             string rainText = "Rain: " + (_rainOn ? "On" : "Off");
-            var rainSize = rainStyle.CalcSize(new GUIContent(rainText));
-            GUI.Label(new Rect(10f, 10f, rainSize.x, rainSize.y), rainText, rainStyle);
+            GUI.Label(new Rect(10f, 10f, 300f, 36f), rainText, rainStyle);
 
             var creditStyle = new GUIStyle(GUI.skin.label);
             creditStyle.fontSize = 14;
             creditStyle.normal.textColor = new Color(1f, 0.71f, 0.80f);
 
-            string creditText = "Made by AxolotlGT";
-            var creditSize = creditStyle.CalcSize(new GUIContent(creditText));
-            GUI.Label(new Rect(8f, Screen.height - creditSize.y - 8f, creditSize.x, creditSize.y), creditText, creditStyle);
+            GUI.Label(new Rect(8f, Screen.height - 28f, 250f, 24f), "Made by AxolotlGT", creditStyle);
         }
 
         private void OnQuit()
