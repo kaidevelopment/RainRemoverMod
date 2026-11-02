@@ -13,7 +13,7 @@ using UnityEngine.SceneManagement;
 
 namespace RainRemoverMod
 {
-    [BepInPlugin("com.gorillatag.rainremover", "RainRemoverMod", "1.0.2")]
+    [BepInPlugin("com.gorillatag.rainremover", "RainRemoverMod", "1.0.3")]
     public class Plugin : BaseUnityPlugin
     {
         private const string ReleaseApi = "https://api.github.com/repos/kaidevelopment/RainRemoverMod/releases/latest";
@@ -62,7 +62,7 @@ namespace RainRemoverMod
 
             string rainText = "Rain: " + (_rainOn ? "On" : "Off");
             var rainSize = rainStyle.CalcSize(new GUIContent(rainText));
-            GUI.Label(new Rect((Screen.width - rainSize.x) * 0.5f, 10f, rainSize.x, rainSize.y), rainText, rainStyle);
+            GUI.Label(new Rect(10f, 10f, rainSize.x, rainSize.y), rainText, rainStyle);
 
             var creditStyle = new GUIStyle(GUI.skin.label);
             creditStyle.fontSize = 14;
@@ -70,7 +70,7 @@ namespace RainRemoverMod
 
             string creditText = "Made by AxolotlGT";
             var creditSize = creditStyle.CalcSize(new GUIContent(creditText));
-            GUI.Label(new Rect(Screen.width - creditSize.x - 8f, Screen.height - creditSize.y - 8f, creditSize.x, creditSize.y), creditText, creditStyle);
+            GUI.Label(new Rect(8f, Screen.height - creditSize.y - 8f, creditSize.x, creditSize.y), creditText, creditStyle);
         }
 
         private void OnQuit()
@@ -143,7 +143,9 @@ namespace RainRemoverMod
         {
             _rainObjects.Clear();
 
-            foreach (var go in Resources.FindObjectsOfTypeAll<GameObject>())
+            var allObjects = Resources.FindObjectsOfTypeAll<GameObject>();
+
+            foreach (var go in allObjects)
             {
                 if (go == null) continue;
                 string name = go.name.ToLowerInvariant();
@@ -173,6 +175,23 @@ namespace RainRemoverMod
                     ps.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
                     ps.gameObject.SetActive(false);
                     _rainObjects.Add(ps.gameObject);
+                }
+            }
+
+            if (_rainObjects.Count == 0)
+            {
+                Log.LogWarning("[RainRemover] No rain objects found. Dumping all active ParticleSystems for debugging:");
+                foreach (var ps in UnityEngine.Object.FindObjectsOfType<ParticleSystem>())
+                {
+                    if (ps == null) continue;
+                    string parent = ps.transform.parent != null ? ps.transform.parent.name : "none";
+                    Log.LogWarning(string.Format("[RainRemover] PS: {0} (parent: {1})", ps.gameObject.name, parent));
+                }
+                Log.LogWarning("[RainRemover] All active root GameObjects:");
+                foreach (var go in allObjects)
+                {
+                    if (go == null || go.transform.parent != null || !go.activeInHierarchy) continue;
+                    Log.LogWarning(string.Format("[RainRemover] Root: {0}", go.name));
                 }
             }
 
