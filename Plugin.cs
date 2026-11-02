@@ -13,7 +13,7 @@ using UnityEngine.SceneManagement;
 
 namespace RainRemoverMod
 {
-    [BepInPlugin("com.gorillatag.rainremover", "RainRemoverMod", "1.0.0")]
+    [BepInPlugin("com.gorillatag.rainremover", "RainRemoverMod", "1.0.1")]
     public class Plugin : BaseUnityPlugin
     {
         private const string ReleaseApi = "https://api.github.com/repos/kaidevelopment/RainRemoverMod/releases/latest";
